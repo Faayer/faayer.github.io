@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faayer AI Chat</title>
+<title>Faayer AI</title>
 
 <style>
 body {
@@ -16,7 +16,18 @@ body {
   background: #202c33;
   color: white;
   padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
   font-size: 18px;
+}
+
+.credit {
+  font-size: 12px;
+  color: #aaa;
 }
 
 /* Chat */
@@ -74,10 +85,16 @@ button {
 
 <body>
 
-<div class="header">Faayer AI 🤖</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="title">Faayer AI 🤖</div>
+  <div class="credit">made with 💗 by Rajeev</div>
+</div>
 
+<!-- CHAT -->
 <div id="chat" class="chat"></div>
 
+<!-- INPUT -->
 <div class="input-area">
   <input id="input" placeholder="Type message..." />
   <button onclick="send()">Send</button>
@@ -91,11 +108,14 @@ function add(text, type) {
   div.className = "msg " + type;
   div.innerText = text;
   document.getElementById("chat").appendChild(div);
+
+  // auto scroll
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
 }
 
 async function send() {
   let input = document.getElementById("input");
-  let text = input.value;
+  let text = input.value.trim();
 
   if (!text) return;
 
@@ -124,9 +144,9 @@ async function send() {
 
     typing.remove();
 
-    let reply = data.choices[0].message.content;
+    let reply = data?.choices?.[0]?.message?.content || "No response";
 
-    // REMOVE THINKING 🔥
+    // REMOVE <think>
     reply = reply.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, "").trim();
 
     add(reply, "bot");
