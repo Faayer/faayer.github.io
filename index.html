@@ -11,7 +11,7 @@ body {
   background: #0f172a;
 }
 
-/* Chat container */
+/* Chat area */
 .chat-box {
   height: 90vh;
   overflow-y: auto;
@@ -28,21 +28,18 @@ body {
   border-radius: 10px;
 }
 
-/* User */
 .user {
   align-self: flex-end;
   background: #22c55e;
   color: black;
 }
 
-/* Bot */
 .bot {
   align-self: flex-start;
   background: #1e293b;
-  color: white;
 }
 
-/* Input area */
+/* Input */
 .input-area {
   display: flex;
   position: fixed;
@@ -68,14 +65,16 @@ button {
 </head>
 <body>
 
-<div class="chat-box" id="chat"></div>
+<div id="chat" class="chat-box"></div>
 
 <div class="input-area">
-  <input id="msg" placeholder="Type a message...">
+  <input id="msg" placeholder="Type message...">
   <button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
+const API_KEY = "sk_qigrzs4x_SvVk6JROcC4vVLeRWgD4W4bE"; // ⚠️ visible to everyone
+
 async function sendMessage() {
   let input = document.getElementById("msg");
   let message = input.value;
@@ -91,19 +90,27 @@ async function sendMessage() {
 
   input.value = "";
 
-  // Call API
-  let res = await fetch("https://your-app.onrender.com/chat", {
+  // API call
+  let res = await fetch("https://api.sarvam.ai/v1/chat/completions", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({message: message})
+    headers: {
+      "Authorization": "Bearer " + API_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "sarvam-m",
+      messages: [{ role: "user", content: message }]
+    })
   });
 
   let data = await res.json();
 
-  // Bot reply
+  let reply = data.choices[0].message.content;
+
+  // Bot message
   let botMsg = document.createElement("div");
   botMsg.className = "msg bot";
-  botMsg.innerText = data.reply;
+  botMsg.innerText = reply;
   chat.appendChild(botMsg);
 
   chat.scrollTop = chat.scrollHeight;
