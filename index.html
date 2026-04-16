@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faayer Agency</title>
+<title>Faayer Blog</title>
 
 <style>
 body {
@@ -15,11 +15,10 @@ body {
 
 /* Navbar */
 nav {
+  background: #020617;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
 }
 
 nav h2 {
@@ -28,59 +27,42 @@ nav h2 {
 
 nav a {
   color: white;
-  margin-left: 20px;
+  margin-left: 15px;
   text-decoration: none;
 }
 
-/* Hero Section */
-.hero {
+/* Header */
+.header {
   text-align: center;
-  padding: 100px 20px;
+  padding: 60px 20px;
 }
 
-.hero h1 {
-  font-size: 40px;
-  background: linear-gradient(90deg, cyan, purple);
-  -webkit-background-clip: text;
-  color: transparent;
+.header h1 {
+  font-size: 36px;
+  color: cyan;
 }
 
-.hero button {
-  padding: 12px 25px;
-  border: none;
-  background: cyan;
-  color: black;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 20px;
+/* Blog Section */
+.blog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+  padding: 30px;
 }
 
-/* 3D Cards */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 50px;
-  flex-wrap: wrap;
-}
-
-.card {
-  width: 250px;
-  height: 300px;
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  border-radius: 20px;
+.post {
+  background: #1e293b;
   padding: 20px;
-  text-align: center;
-  transition: 0.5s;
-  transform-style: preserve-3d;
+  border-radius: 15px;
+  transition: 0.3s;
 }
 
-.card:hover {
-  transform: rotateY(15deg) rotateX(10deg) scale(1.05);
-  box-shadow: 0 20px 40px rgba(0,255,255,0.3);
+.post:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,255,255,0.2);
 }
 
-.card h3 {
+.post h3 {
   color: cyan;
 }
 
@@ -88,7 +70,7 @@ nav a {
 footer {
   text-align: center;
   padding: 20px;
-  background: rgba(255,255,255,0.05);
+  background: #020617;
 }
 </style>
 
@@ -97,42 +79,43 @@ footer {
 
 <!-- Navbar -->
 <nav>
-  <h2>Faayer</h2>
+  <h2>Faayer Blog</h2>
   <div>
     <a href="#">Home</a>
-    <a href="#">Services</a>
+    <a href="#">Articles</a>
     <a href="#">Contact</a>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>We Build Smart AI Websites</h1>
-  <p>Automation + Design + Growth</p>
-  <button>Get Started</button>
+<!-- Header -->
+<section class="header">
+  <h1>Welcome to My Blog 🚀</h1>
+  <p>Sharing ideas about AI, business & tech</p>
 </section>
 
-<!-- Services -->
-<section class="cards">
-  <div class="card">
-    <h3>Web Design</h3>
-    <p>Modern & responsive UI</p>
+<!-- Blog Posts -->
+<section class="blog">
+
+  <div class="post">
+    <h3>How AI is Changing Business</h3>
+    <p>AI is transforming automation and customer experience...</p>
   </div>
 
-  <div class="card">
-    <h3>AI Chatbot</h3>
-    <p>Automate your business</p>
+  <div class="post">
+    <h3>Start Your Online Agency</h3>
+    <p>Learn how to build and grow your own agency...</p>
   </div>
 
-  <div class="card">
-    <h3>SEO</h3>
-    <p>Grow your traffic fast</p>
+  <div class="post">
+    <h3>Best Tools for Productivity</h3>
+    <p>Discover tools that save time and increase output...</p>
   </div>
+
 </section>
 
 <!-- Footer -->
 <footer>
-  <p>© 2026 Faayer Agency</p>
+  <p>© 2026 Faayer Blog</p>
 </footer>
 
 </body>
