@@ -133,7 +133,14 @@ async function sendMessage() {
     let reply = data?.choices?.[0]?.message?.content || "No response";
 
     // 🔥 remove thinking part
-    reply = reply.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+// Remove <think> blocks (all formats)
+reply = reply.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, "");
+
+// Remove any leftover tags
+reply = reply.replace(/<\/?think>/gi, "");
+
+// Clean extra spaces
+reply = reply.trim();
 
     addMessage(reply, "bot");
 
