@@ -1,628 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Modern Blog - Explore insightful articles on travel, lifestyle, technology, and wellness. Join our community of curious minds.">
-    <title>Chronicle | Modern Blog & Stories</title>
-    <!-- Google Fonts + Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faayer Chat</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+}
+
+/* Chat container */
+.chat-box {
+  height: 90vh;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Messages */
+.msg {
+  max-width: 70%;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+/* User */
+.user {
+  align-self: flex-end;
+  background: #22c55e;
+  color: black;
+}
+
+/* Bot */
+.bot {
+  align-self: flex-start;
+  background: #1e293b;
+  color: white;
+}
+
+/* Input area */
+.input-area {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #020617;
+}
+
+input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 15px;
+  border: none;
+  background: #22c55e;
+}
+</style>
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background-color: #fefefe;
-            color: #1a1e2b;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
-
-        /* CSS Variables */
-        :root {
-            --primary: #3b3f5c;
-            --primary-dark: #2c2f47;
-            --accent: #e07c3c;
-            --accent-light: #f5a97f;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
-            --radius-card: 1.25rem;
-            --radius-element: 0.75rem;
-            --transition: all 0.25s ease;
-        }
-
-        /* Utility classes */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Typography */
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Header & Navigation */
-        .site-header {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(2px);
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 1rem 0;
-        }
-
-        .logo a {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            font-weight: 500;
-            color: var(--gray-700);
-            transition: var(--transition);
-            font-size: 1rem;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .hamburger {
-            display: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--primary);
-            transition: var(--transition);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(120deg, #f9f5f0 0%, #fff4e8 100%);
-            margin: 1.5rem 0 2rem 0;
-            border-radius: 2rem;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #4b5563;
-            max-width: 650px;
-            margin: 0 auto 1.8rem auto;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Blog Main Grid (2fr + 1fr) */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2.5rem;
-            margin: 2rem 0 3rem;
-        }
-
-        /* Posts Grid inside main */
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            border-left: 5px solid var(--accent);
-            padding-left: 1rem;
-        }
-
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .post-card {
-            background: white;
-            border-radius: var(--radius-card);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--gray-200);
-        }
-
-        .post-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .post-img {
-            height: 200px;
-            object-fit: cover;
-            width: 100%;
-            transition: transform 0.4s ease;
-        }
-
-        .post-card:hover .post-img {
-            transform: scale(1.02);
-        }
-
-        .post-content {
-            padding: 1.3rem;
-            flex: 1;
-        }
-
-        .post-category {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .post-title {
-            font-size: 1.35rem;
-            margin-bottom: 0.6rem;
-            font-weight: 700;
-        }
-
-        .post-meta {
-            font-size: 0.8rem;
-            color: #6c757d;
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .post-excerpt {
-            color: var(--gray-700);
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
-        }
-
-        .read-more {
-            font-weight: 600;
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.9rem;
-        }
-
-        .read-more i {
-            transition: transform 0.2s;
-        }
-
-        .read-more:hover i {
-            transform: translateX(5px);
-        }
-
-        /* Sidebar Widgets */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .widget {
-            background: white;
-            border-radius: var(--radius-element);
-            padding: 1.5rem;
-            border: 1px solid var(--gray-200);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .widget-title {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            font-weight: 700;
-            border-bottom: 2px solid var(--gray-200);
-            padding-bottom: 0.5rem;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .search-form input {
-            flex: 1;
-            padding: 0.7rem 1rem;
-            border: 1px solid var(--gray-200);
-            border-radius: 2rem;
-            font-family: inherit;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .search-form input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(224, 124, 60, 0.2);
-        }
-
-        .search-form button {
-            background: var(--primary);
-            border: none;
-            border-radius: 2rem;
-            width: 42px;
-            color: white;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .search-form button:hover {
-            background: var(--accent);
-        }
-
-        .categories-list {
-            list-style: none;
-        }
-
-        .categories-list li {
-            margin-bottom: 0.7rem;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed var(--gray-200);
-            padding-bottom: 0.5rem;
-        }
-
-        .categories-list a {
-            font-weight: 500;
-        }
-
-        .categories-list a:hover {
-            color: var(--accent);
-        }
-
-        .popular-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-            align-items: center;
-        }
-
-        .popular-img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 0.8rem;
-        }
-
-        .popular-info h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-        }
-
-        .popular-info span {
-            font-size: 0.7rem;
-            color: #6c757d;
-        }
-
-        .newsletter-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .newsletter-form input {
-            padding: 0.7rem 1rem;
-            border: 1px solid var(--gray-200);
-            border-radius: 2rem;
-            font-family: inherit;
-        }
-
-        .btn-subscribe {
-            background: var(--accent);
-            border: none;
-            padding: 0.7rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-subscribe:hover {
-            background: var(--primary);
-        }
-
-        /* Footer */
-        .site-footer {
-            background: var(--gray-800);
-            color: #e2e8f0;
-            margin-top: 3rem;
-            padding: 2.5rem 0 1.5rem;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-social a {
-            color: #cbd5e1;
-            font-size: 1.5rem;
-            margin-left: 1rem;
-            transition: var(--transition);
-        }
-
-        .footer-social a:hover {
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .footer-copyright {
-            text-align: center;
-            border-top: 1px solid #334155;
-            padding-top: 1.5rem;
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            .nav-links {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                background: white;
-                padding: 1.2rem 0;
-                gap: 1rem;
-                border-radius: 1rem;
-                margin-top: 1rem;
-                box-shadow: var(--shadow-md);
-                border: 1px solid var(--gray-200);
-            }
-            .nav-links.active {
-                display: flex;
-            }
-            .header-inner {
-                flex-wrap: wrap;
-            }
-            .hero {
-                padding: 2rem 1rem;
-            }
-            .posts-grid {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 0 1.2rem;
-            }
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .nav-links {
-                display: flex !important;
-            }
-        }
-
-        /* Additional styling */
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        blockquote {
-            font-style: italic;
-        }
-
-        hr {
-            margin: 0.5rem 0;
-        }
-    </style>
 </head>
 <body>
 
-<header class="site-header">
-    <div class="container header-inner">
-        <div class="logo">
-            <a href="#">Chronicle<span style="color:#e07c3c;">.</span></a>
-        </div>
-        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-            <i class="fas fa-bars"></i>
-        </button>
-        <nav class="nav-links" id="navLinks">
-            <a href="#">Home</a>
-            <a href="#">Stories</a>
-            <a href="#">Travel</a>
-            <a href="#">Lifestyle</a>
-            <a href="#">Wellness</a>
-            <a href="#">Contact</a>
-        </nav>
-    </div>
-</header>
+<div class="chat-box" id="chat"></div>
 
-<main>
-    <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>Stories that inspire,<br> ideas that matter</h1>
-            <p>Chronicle is a modern journal for curious minds — exploring travel, creativity, and mindful living through authentic narratives.</p>
-            <a href="#" class="btn-primary" id="exploreBtn">Explore the Journal <i class="fas fa-arrow-right"></i></a>
-        </section>
+<div class="input-area">
+  <input id="msg" placeholder="Type a message...">
+  <button onclick="sendMessage()">Send</button>
+</div>
 
-        <!-- Main Content + Sidebar Grid -->
-        <div class="blog-grid">
-            <!-- Main Blog Posts Area -->
-            <section>
-                <h2 class="section-title">Latest chronicles</h2>
-                <div class="posts-grid">
-                    <!-- Post 1 -->
-                    <article class="post-card">
-                        <img class="post-img" src="https://picsum.photos/id/104/400/250" alt="Mountain landscape" loading="lazy">
-                        <div class="post-content">
-                            <div class="post-category">Travel</div>
-                            <h3 class="post-title">The art of slow travel: finding magic off the beaten path</h3>
-                            <div class="post-meta"><i class="far fa-calendar-alt"></i> April 12, 2025 · <i class="far fa-clock"></i> 6 min read</div>
-                            <p class="post-excerpt">Embrace unhurried journeys, authentic connections, and transformative experiences beyond tourist crowds.</p>
-                            <a href="#" class="read-more">Read more <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </article>
+<script>
+async function sendMessage() {
+  let input = document.getElementById("msg");
+  let message = input.value;
+  if (!message) return;
 
-                    <!-- Post 2 -->
-                    <article class="post-card">
-                        <img class="post-img" src="https://picsum.photos/id/20/400/250" alt="Workspace coffee" loading="lazy">
-                        <div class="post-content">
-                            <div class="post-category">Lifestyle</div>
-                            <h3 class="post-title">Designing a morning ritual that actually sticks</h3>
-                            <div class="post-meta"><i class="far fa-calendar-alt"></i> April 8, 2025 · <i class="far fa-clock"></i> 4 min read</div>
-                            <p class="post-excerpt">Small intentional habits create lasting change. Discover practical steps to craft a mindful start.</p>
-                            <a href="#" class="read-more">Read more <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </article>
+  let chat = document.getElementById("chat");
 
-                    <!-- Post 3 -->
-                    <article class="post-card">
-                        <img class="post-img" src="https://picsum.photos/id/26/400/250" alt="City architecture" loading="lazy">
-                        <div class="post-content">
-                            <div class="post-category">Urban</div>
-                            <h3 class="post-title">Hidden libraries & quiet corners: exploring literary Lisbon</h3>
-                            <div class="post-meta"><i class="far fa-calendar-alt"></i> April 3, 2025 · <i class="far fa-clock"></i> 5 min read</div>
-                            <p class="post-excerpt">From ancient bookshops to secret gardens, wander through the soul of Lisbon's literary heritage.</p>
-                            <a href="#" class="read-more">Read more <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </article>
+  // User message
+  let userMsg = document.createElement("div");
+  userMsg.className = "msg user";
+  userMsg.innerText = message;
+  chat.appendChild(userMsg);
 
-                    <!-- Post 4 -->
-                    <article class="post-card">
-                        <img class="post-img" src="https://picsum.photos/id/155/400/250" alt="Meditation nature" loading="lazy">
-                        <div class="post-content">
-                            <div class="post-category">Wellness</div>
-                            <h3 class="post-title">Digital detox: reclaiming focus in a noisy world</h3>
-                            <div class="post-meta"><i class="far fa-calendar-alt"></i> March 28, 2025 · <i class="far fa-clock"></i> 7 min read</div>
-                            <p class="post-excerpt">Actionable strategies to reduce screen fatigue and restore deep work + creative flow.</p>
-                            <a href="#" class="read-more">Read more <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </article>
-                </div>
-            </section>
+  input.value = "";
 
-            <!-- Sidebar Section -->
-            <aside class="sidebar">
-                <!-- Search Widget -->
-                <div class="widget">
-                    <h3 class="widget-title"><i class="fas fa-search"></i> Search</h3>
-                    <div class="search-form">
-                        <input type="text" placeholder="Type keywords..." id="searchInput">
-                        <button id="searchBtn" aria-label="Search"><i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
+  // Call API
+  let res = await fetch("https://your-app.onrender.com/chat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message: message})
+  });
 
-                <!-- Categories Widget -->
-                <div class="widget">
-                    <h3 class="widget-title"><i class="fas fa-folder-open"></i> Categories</h3>
-                    <ul class="categories-list">
-                        <li><a href="#">Travel Stories</a> <span>(12)</span></li>
-                        <li><a href="#">Mindfulness</a> <span>(8)</span></li>
-                        <li><a href="#">Creative Living</a> <span>(15)</span></li>
-                        <li><a href="#">Remote Work</a> <span>(9)</span></li>
-                        <li><a href="#">Photography</a> <span>(6)</span></li>
-                        <li><a href="#">Book Reviews</a> <span>(11)</span></li>
-                    </ul>
-                </div>
+  let data = await res.json();
 
-                <!-- Popular Posts Widget -->
-                <div class="widget">
-                    <h3 class="widget-title"><i class="fas fa-fire"></i> Popular picks</h3>
-                    <div class="popular-item">
-                        <img class=
+  // Bot reply
+  let botMsg = document.createElement("div");
+  botMsg.className = "msg bot";
+  botMsg.innerText = data.reply;
+  chat.appendChild(botMsg);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+</script>
+
+</body>
+</html>
