@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faayer Agency</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+}
+
+nav h2 {
+  color: cyan;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  background: linear-gradient(90deg, cyan, purple);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero button {
+  padding: 12px 25px;
+  border: none;
+  background: cyan;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* 3D Cards */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 50px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 250px;
+  height: 300px;
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.5s;
+  transform-style: preserve-3d;
+}
+
+.card:hover {
+  transform: rotateY(15deg) rotateX(10deg) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,255,255,0.3);
+}
+
+.card h3 {
+  color: cyan;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+}
+</style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <h2>Faayer</h2>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>We Build Smart AI Websites</h1>
+  <p>Automation + Design + Growth</p>
+  <button>Get Started</button>
+</section>
+
+<!-- Services -->
+<section class="cards">
+  <div class="card">
+    <h3>Web Design</h3>
+    <p>Modern & responsive UI</p>
+  </div>
+
+  <div class="card">
+    <h3>AI Chatbot</h3>
+    <p>Automate your business</p>
+  </div>
+
+  <div class="card">
+    <h3>SEO</h3>
+    <p>Grow your traffic fast</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 Faayer Agency</p>
+</footer>
+
+</body>
+</html>
