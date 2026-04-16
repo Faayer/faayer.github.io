@@ -2,18 +2,26 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faayer Chat</title>
+<title>Faayer AI Chat</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial;
-  background: #0f172a;
+  background: #0b141a;
+}
+
+/* Header */
+.header {
+  background: #202c33;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
 }
 
 /* Chat area */
 .chat-box {
-  height: 90vh;
+  height: 85vh;
   overflow-y: auto;
   padding: 10px;
   display: flex;
@@ -22,21 +30,23 @@ body {
 
 /* Messages */
 .msg {
-  max-width: 70%;
+  max-width: 75%;
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
+  font-size: 14px;
 }
 
 .user {
   align-self: flex-end;
-  background: #22c55e;
-  color: black;
+  background: #005c4b;
+  color: white;
 }
 
 .bot {
   align-self: flex-start;
-  background: #1e293b;
+  background: #202c33;
+  color: white;
 }
 
 /* Input */
@@ -45,7 +55,7 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #020617;
+  background: #202c33;
 }
 
 input {
@@ -53,67 +63,84 @@ input {
   padding: 15px;
   border: none;
   outline: none;
+  background: #2a3942;
+  color: white;
 }
 
 button {
   padding: 15px;
   border: none;
-  background: #22c55e;
+  background: #00a884;
+  color: white;
+  font-weight: bold;
 }
 </style>
-
 </head>
+
 <body>
+
+<div class="header">Faayer AI 🤖</div>
 
 <div id="chat" class="chat-box"></div>
 
 <div class="input-area">
-  <input id="msg" placeholder="Type message...">
+  <input id="msg" placeholder="Type a message..." />
   <button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
-const API_KEY = "sk_qigrzs4x_SvVk6JROcC4vVLeRWgD4W4bE"; // ⚠️ visible to everyone
+const API_KEY = "sk_qigrzs4x_SvVk6JROcC4vVLeRWgD4W4bE";
+
+function addMessage(text, type) {
+  let chat = document.getElementById("chat");
+  let msg = document.createElement("div");
+  msg.className = "msg " + type;
+  msg.innerText = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
 
 async function sendMessage() {
   let input = document.getElementById("msg");
-  let message = input.value;
+  let message = input.value.trim();
+
   if (!message) return;
 
-  let chat = document.getElementById("chat");
-
-  // User message
-  let userMsg = document.createElement("div");
-  userMsg.className = "msg user";
-  userMsg.innerText = message;
-  chat.appendChild(userMsg);
-
+  addMessage(message, "user");
   input.value = "";
 
-  // API call
-  let res = await fetch("https://api.sarvam.ai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer " + API_KEY,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "sarvam-m",
-      messages: [{ role: "user", content: message }]
-    })
-  });
+  // typing indicator
+  addMessage("Typing...", "bot");
 
-  let data = await res.json();
+  try {
+    let res = await fetch("https://api.sarvam.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "sarvam-m",
+        messages: [{ role: "user", content: message }]
+      })
+    });
 
-  let reply = data.choices[0].message.content;
+    let data = await res.json();
 
-  // Bot message
-  let botMsg = document.createElement("div");
-  botMsg.className = "msg bot";
-  botMsg.innerText = reply;
-  chat.appendChild(botMsg);
+    // remove typing
+    document.getElementById("chat").lastChild.remove();
 
-  chat.scrollTop = chat.scrollHeight;
+    let reply = data?.choices?.[0]?.message?.content || "No response";
+
+    // 🔥 remove thinking part
+    reply = reply.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+
+    addMessage(reply, "bot");
+
+  } catch (err) {
+    document.getElementById("chat").lastChild.remove();
+    addMessage("❌ Error connecting to AI", "bot");
+  }
 }
 </script>
 
